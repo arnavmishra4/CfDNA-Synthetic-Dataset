@@ -132,8 +132,4 @@ output/
 ```
 
 Each JSON contains up to 750 fragments per patient by default (`N_FRAGS_TARGET` in `main.py`).
-
-### Kaggle
-
-If running on Kaggle, the default paths in `main.py` already point to `/kaggle/input/` and `/kaggle/working/`. Add your datasets via **Add Data** and match the dataset slugs to the paths, or update them to match your dataset names.
 ```
