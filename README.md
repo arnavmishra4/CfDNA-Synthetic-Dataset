@@ -1,6 +1,4 @@
 
-
-```markdown
 # Synthetic GBM cfDNA Generation Pipeline
 ## Overview
 This repository contains a biologically-grounded, citation-backed pipeline for generating synthetic cell-free DNA (cfDNA) datasets targeted at glioma subtype classification. 
