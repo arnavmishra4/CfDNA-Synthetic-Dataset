@@ -4,15 +4,15 @@
 This repository contains a biologically-grounded, citation-backed pipeline for generating synthetic cell-free DNA (cfDNA) datasets targeted at glioma subtype classification. 
 Due to the lack of public glioblastoma (GBM) plasma cfDNA datasets, this methodology reconstructs realistic cfDNA fragments by mapping microarray beta values to the reference genome and simulating the physical dynamics of post-cfMeDIP-seq enrichment. 
 ## Pipeline Architecture
-The generation pipeline follows strict biological constraints derived from fragmentomics literature:
-* **Data Sourcing & Baseline:** Utilizes TCGA-GBM, TCGA-LGG, and GEO datasets for tumor methylation patterns, mapped against the hg38 reference genome and a healthy plasma methylation atlas (GSE122126).
-* **DMR-First Windowing:** Extracts sequences exclusively from the Top 300 Differentially Methylated Regions (DMRs) identified via `limma-trend`, restricting extraction to biologically relevant areas like CpG Islands, Shores, Shelves, and FANTOM5 Enhancers.
-* **Beta Value Tokenization:** Converts 450K array beta values into discrete methylation tokens (`<m>`, `<um>`) and fuses them with A/T/G/C nucleotides to create Pleiades-compatible text sequences.
-* **Nucleosome-Aware Fragmentation:** Fragments DNA strings based on nuclease cleavage preferences and nucleosome footprints. Simulates the physiological bimodal distribution: ~166 bp for healthy fragments and ~134-144 bp for tumor-derived fragments[cite: 1].
-* **cfMeDIP-seq Simulation:** Enforces a physical enrichment filter, requiring 2 to 8 methylated CpGs per fragment, simulating the actual capture dynamics of immunoprecipitation assays[cite: 1].
-* **Fractional Mixing:** Accurately mixes simulated tumor fractions with healthy background fractions (WBCs, RBC progenitors, endothelium)[cite: 1].
+The generation pipeline follows biological principles reported in fragmentomics studies:
+* **Data Source:** Tumor methylation patterns are obtained from TCGA-GBM, TCGA-LGG, and GEO datasets and aligned to the hg38 reference genome. Healthy plasma methylation profiles from GSE122126 are used as the baseline.
+* **Region Selection:** Rather than using the entire genome, sequences are extracted only from the top 300 Differentially Methylated Regions (DMRs) identified using `limma-trend`. These include biologically important regions such as CpG Islands, Shores, Shelves, and FANTOM5 enhancers.
+* **Sequence Encoding:** 450K array beta values are converted into methylated (`<m>`) and unmethylated (`<um>`) tokens and combined with DNA bases (A, T, G, and C) to create Pleiades-compatible text sequences.
+* **Realistic Fragment Generation:** DNA fragments are generated according to known nucleosome and nuclease cleavage patterns. The pipeline reproduces the characteristic fragment sizes observed in blood, with healthy fragments centered around ~166 bp and tumor-derived fragments around ~134–144 bp.
+* **cfMeDIP-seq Simulation:** Fragments are filtered to retain those containing 2–8 methylated CpG sites, mimicking the enrichment process used in immunoprecipitation-based assays.
+* **Tumor Fraction Mixing:** Tumor-derived fragments are mixed with healthy background DNA from white blood cells, erythroid progenitors, and endothelial cells to create realistic circulating cell-free DNA samples.
 ## Output Format
-The pipeline outputs serialized JSON files directly compatible with the Pleiades foundational model architecture[cite: 1]. 
+The pipeline produces serialized JSON files that are directly compatible with the Pleiades foundation model architecture.
 ```json
 {
   "label": 1,
